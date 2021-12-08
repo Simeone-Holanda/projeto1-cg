@@ -17,7 +17,7 @@ master.geometry("%dx%d+0+0" % (screen_width, screen_height))  # largura, altura,
 master.wm_resizable(width=False, height=False)  # travando a tela na resolução definida
 
 # colocando a img de fundo e especificando a posição dela na tela
-canvas = Canvas(master, width=900, height=800, bg="white")
+canvas = Canvas(master, width=canvasSizeX, height=canvasSizeY, bg="white")
 canvas.pack(side="bottom")
 label_plano_cartesiano = Label(master)
 label_plano_cartesiano.place(x=0, y=0)
@@ -27,8 +27,8 @@ img = PhotoImage(width=screen_width, height=screen_height)
 canvas.create_image((screen_width / 2, screen_height / 2), image=img, state="normal")  # normal, disabled or hidden
 
 # criando plano cartesiano
-canvas.create_line(0, 400, 900, 400)  # Linha horizontal
-canvas.create_line(450, 0, 450, 800)  # linha  vertical
+canvas.create_line(0, canvasSizeY/2, canvasSizeX, canvasSizeY/2)  # Linha horizontal
+canvas.create_line(canvasSizeX/2, 0, canvasSizeX/2, canvasSizeY)  # linha  vertical
 
 # criando a caixinha q mostra as coordenadas
 widget1 = Frame(master)
@@ -65,19 +65,20 @@ def button(event):
 
     x = event.x
     y = event.y
-    msg.configure(text=f'Coordenadas da tela X:{x} | Y: {y}')
-    msg_plano.configure(
-        text=f'Coordenadas do plano X:{round(x - (canvasSizeX / 2) - 1) + 1} | Y: {(round(y - (canvasSizeY / 2) - 1) * -1) - 1}')
-    print(f'X:{x} | Y: {y}')
-
+    
     x_plano = round(x - (canvasSizeX / 2) - 1) + 1
     y_plano = (round(((y - canvasSizeY / 2) - 1)) * -1) - 1
+    
+    ndcx = round(transformar.world_to_ndcx(x_plano, (canvasSizeX/2)), 2)
+    ndcy = round(transformar.world_to_ndcy(y_plano, (canvasSizeY/2)), 2)
 
-    ndcx = round(transformar.world_to_ndcx(x_plano, (canvasSizeX / 2) - 1), 4)
-    ndcy = round(transformar.world_to_ndcy(y_plano, (canvasSizeY / 2) - 1), 4)
-
-    dcx = transformar.ndcx_to_dcx(ndcx, canvasSizeX / 2)
-    dcy = transformar.ndcy_to_dcy(ndcy, canvasSizeY / 2)
+    dcx = transformar.ndcx_to_dcx(ndcx, canvasSizeX)
+    dcy = transformar.ndcy_to_dcy(ndcy, canvasSizeY)
+    
+    msg.configure(text=f'Coordenadas da tela X:{x} | Y: {y}')
+    msg_plano.configure(
+        text=f'Coordenadas do plano X:{x_plano} | Y: {y_plano}')
+    print(f'X:{x} | Y: {y}')
 
     msg_ndc.configure(text=f'Coordenadas NDC NDCX:{ndcx} | NDCY: {ndcy}')
 
@@ -90,9 +91,14 @@ def button(event):
         ("red", "red", "red", "red", "red"),
         ("red", "red", "red", "red", "red"),
     )
+    
+    if (x - 2 < 0) or (y - 2 < 0):
+        img.put(data, (x, y))
 
-    img.put(data, (x-2, y-2))  # Impressão do pixel
+    else:
+        img.put(data, (x-2, y-2))
+        # Impressão do pixel
 
 
-master.bind('<Button>', button)
+canvas.bind('<Button>', button)
 master.mainloop()
