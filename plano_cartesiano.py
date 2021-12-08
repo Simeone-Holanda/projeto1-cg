@@ -66,6 +66,11 @@ def button(event):
     x = event.x
     y = event.y
     
+    if(x > canvasSizeX):x=canvasSizeX
+    elif(y > canvasSizeY): y=canvasSizeY
+    elif(y<0): y=0
+    elif(x<0): x=0
+    
     x_plano = round(x - (canvasSizeX / 2) - 1) + 1
     y_plano = (round(((y - canvasSizeY / 2) - 1)) * -1) - 1
     
