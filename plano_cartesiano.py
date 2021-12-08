@@ -52,9 +52,8 @@ msg_dc = Label(coordenadas_dc, text=f"Coordenadas DC DCX:{0} | DCY: {0}")
 msg_dc["font"] = ("Verdana", "10", "italic", "bold")
 msg_dc.pack()
 
-img = PhotoImage(width=screen_width, height=screen_height)
-canvas.create_image((screen_width / 2, screen_height / 2), image=img, state="normal")
-img.put("red", (300, 300))
+
+
 
 
 def converter_plano_cartesiano(x, y):
@@ -65,6 +64,7 @@ def button(event):
     """ Função responsável por mostrar as coordenadas na tela e marca o pixel selecionado. """
 
     transformar = Transformar()
+
 
 
     x = event.x
@@ -87,7 +87,7 @@ def button(event):
 
     msg_dc.configure(text=f'Coordenadas DC DCX:{dcx} | DCY: {dcy}')
 
-    # canvas.create_rectangle(x, y, x+10, y+10, fill="red",tags="pixelGroup") #gera grupo de pixeis
+    
 
     data = (  #Definição do grupo de pixeis
        ("red", "red", "red", "red", "red"),
