@@ -6,7 +6,7 @@ master = Tk()
 screen_width = master.winfo_screenwidth()
 screen_height = master.winfo_screenheight()
 
-master.title('Plano cartesiano')
+master.title('Projeto 1: Transformacoes')
 
 master.geometry("%dx%d+0+0" %(screen_width,screen_height))  # largura, altura, dist esquerda + dist topo
 master.wm_resizable(width=False, height=False)  # travando a tela na resolução definida
@@ -17,6 +17,10 @@ canvas = Canvas(master, width=1920, height=1080, bg="white")
 canvas.pack()
 label_plano_cartesiano = Label(master)
 label_plano_cartesiano.place(x=0, y=0)
+
+# colocar o pixel como imagem
+#img = PhotoImage(width=screen_width, height=screen_height)
+#canvas.create_image((screen_width/2, screen_height/2), image=img, state="normal") #normal, disabled or hidden
 
 #criando plano cartesiano
 canvas.create_line(0,screen_height/2,screen_width,screen_height/2) #Linha horizontal
@@ -44,30 +48,11 @@ def button(event):
     canvas.delete("pixelGroup")#Exclui caso exista o grupo de pixeis
     x = event.x
     y = event.y
-    if x <= screen_width/2:
-        print('x é negativo ou igual a 0!!')
-        if y <= screen_height/2:
-            print('y é positivo!!')
-            msg.configure(text=f'X:{x} | Y: {y}')
-            msg_plano.configure(text=f'X:{round(((screen_width/2)-x))*-1} | Y: {round(((screen_height/2)-y))}')
-        else:
-            print('y é negativo ou igual a 0 !!')
-            msg.configure(text=f'X:{x} | Y: {y}')
-            msg_plano.configure(text=f'X:{round(((screen_width/2)-x))*-1} | Y: {round((((screen_height/2)-y)))}')
-    else:
-        print('x é positivo!!')
-        if y < screen_height/2:
-            print('y é positivo!!')
-            msg.configure(text=f'X:{x} | Y: {y}')
-            msg_plano.configure(text=f'X:{round(((screen_width/2)-x))*-1} | Y: {round(((screen_height/2)-y))}')
-        else:
-            print('y é negativo!!')
-            msg.configure(text=f'X:{x} | Y: {y}')
-            msg_plano.configure(text=f'X:{round(((screen_width/2)-x))*-1} | Y: {round(((screen_height/2)-y))}')
-    
+    msg.configure(text=f'X:{x} | Y: {y}')
+    msg_plano.configure(text=f'X:{round(x-(screen_width/2)-1)+1} | Y: {(round(((y-screen_height/2)-1))*-1)-1}')
     print(f'X:{x} | Y: {y}')
     canvas.create_rectangle(x, y, x+10, y+10, fill="red",tags="pixelGroup") #gera grupo de pixeis
-
+    #img.put("#008080", (x,y))
 
 
 master.bind('<Button>', button)
