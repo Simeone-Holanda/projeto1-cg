@@ -6,26 +6,28 @@ class Transformar:
     def __init__(self) -> None:
         ...
 
-    def world_to_ndcx(x_value, x_min, x_max):
+    def world_to_ndcx(self, x_value, x_tela):
         """  Função responsável por converter o valor de X no mundo para NDCX  """
-        ndcx = (x_value - x_min) / (x_max - x_min)
+        #self.ndcx = (x_value + 1) / 2
+        self.ndcx = x_value / x_tela
 
-        return ndcx
+        return self.ndcx
 
-    def world_to_ndcy(y_value, y_min, y_max):
+    def world_to_ndcy(self, y_value, y_tela):
         """  Função responsável por converter o valor de Y no mundo para NDCY  """
-        ndcy = (y_value - y_min) / (y_max - y_min)
+        #self.ndcy = (y_value + 1) / 2
+        self.ndcy = y_value / y_tela
         
-        return ndcy
+        return self.ndcy
         
-    def ndcx_to_dcx(ndcx, ndh):
+    def ndcx_to_dcx(self, ndcx, ndh):
         """  Função responsável por converter o valor de NDCX para DCX  """
-        dcx = round(ndcx * (ndh - 1))
+        self.dcx = round(ndcx * (ndh - 1))
         
-        return dcx
+        return self.dcx
 
-    def ndcy_to_dcy(ndcy, ndv):
+    def ndcy_to_dcy(self, ndcy, ndv):
         """  Função responsável por converter o valor de NDCY para DCY  """
-        dcx = round(ndcy * (ndv - 1))
+        self.dcx = round(ndcy * (ndv - 1))
         
-        return dcx
+        return self.dcx
