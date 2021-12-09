@@ -19,8 +19,7 @@ master.wm_resizable(width=False, height=False)  # travando a tela na resolução
 # colocando a img de fundo e especificando a posição dela na tela
 canvas = Canvas(master, width=canvasSizeX, height=canvasSizeY, bg="white")
 canvas.pack(side="bottom")
-label_plano_cartesiano = Label(master)
-label_plano_cartesiano.place(x=0, y=0)
+
 
 # colocar o pixel como imagem
 img = PhotoImage(width=screen_width, height=screen_height)
@@ -37,18 +36,21 @@ msg = Label(widget1, text=f"Coordenadas da tela X:{0} | Y: {0}")
 msg["font"] = ("Verdana", "10", "italic", "bold")
 msg.pack()
 
+# Container para mostrar todas as coordenadas do plano
 coordenadas_plano_cartesiano = Frame(master)
 coordenadas_plano_cartesiano.place(bordermode=OUTSIDE, height=20, width=400, x=450)
 msg_plano = Label(coordenadas_plano_cartesiano, text=f"Coordenadas do plano X:{0} | Y: {0}")
 msg_plano["font"] = ("Verdana", "10", "italic", "bold")
 msg_plano.pack()
 
+# Container para mostrar os NDCs
 coordenadas_ndc = Frame(master)
 coordenadas_ndc.place(bordermode=OUTSIDE, height=20, width=400, y=70,x=20)
 msg_ndc = Label(coordenadas_ndc, text=f"Coordenadas NDC NDCX:{0} | NDCY: {0}")
 msg_ndc["font"] = ("Verdana", "10", "italic", "bold")
 msg_ndc.pack(side="bottom")
 
+#Container 
 coordenadas_dc = Frame(master)
 coordenadas_dc.place(bordermode=OUTSIDE, height=20, width=300,x=500,y=70)
 msg_dc = Label(coordenadas_dc, text=f"Coordenadas DC DCX:{0} | DCY: {0}")
@@ -56,20 +58,23 @@ msg_dc["font"] = ("Verdana", "10", "italic", "bold")
 msg_dc.pack(side="bottom")
 
 
-
-
 def button(event):
-    """ Função responsável por mostrar as coordenadas na tela e marca o pixel selecionado. """
+    """ Função responsável por mostrar as coordenadas e marca o pixel selecionado.Além de mostrar todos
+        as transformoções em containers separados """
 
     transformar = Transformar()
 
     x = event.x
     y = event.y
     
-    if(x > canvasSizeX):x=canvasSizeX
-    elif(y > canvasSizeY): y=canvasSizeY
-    elif(y<0): y=0
-    elif(x<0): x=0
+    if(x > canvasSizeX):
+        x=canvasSizeX
+    elif(y > canvasSizeY): 
+        y = canvasSizeY
+    elif(y<0): 
+        y = 0
+    elif(x<0): 
+        x = 0
     
     x_plano = round(x - (canvasSizeX / 2) - 1) + 1
     y_plano = (round(((y - canvasSizeY / 2) - 1)) * -1) - 1
@@ -105,5 +110,6 @@ def button(event):
         # Impressão do pixel
 
 
-canvas.bind('<Button>', button)
-master.mainloop()
+if __name__ == "__main__":
+    canvas.bind('<Button>', button)
+    master.mainloop()
