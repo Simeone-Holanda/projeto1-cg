@@ -4,7 +4,7 @@ from transformacoes import Transformar
 
 master = Tk()
 
-# captura tamanho da tela do usuário
+#Tamanho da tela padrao
 screen_width = 1000
 screen_height = 900
 
@@ -20,14 +20,20 @@ master.wm_resizable(width=False, height=False)  # travando a tela na resolução
 canvas = Canvas(master, width=canvasSizeX, height=canvasSizeY, bg="white")
 canvas.pack(side="bottom")
 
-
 # colocar o pixel como imagem
 img = PhotoImage(width=screen_width, height=screen_height)
 canvas.create_image((screen_width / 2, screen_height / 2), image=img, state="normal")  # normal, disabled or hidden
 
 # criando plano cartesiano
-canvas.create_line(0, canvasSizeY/2, canvasSizeX, canvasSizeY/2)  # Linha horizontal
-canvas.create_line(canvasSizeX/2, 0, canvasSizeX/2, canvasSizeY)  # linha  vertical
+
+#Linha Horizontal
+for i in range(canvasSizeX):
+    img.put("black", (int(0 + i), int(canvasSizeY/2)))
+
+#Linha vertical
+for i in range(canvasSizeY):
+    img.put("black", (int(canvasSizeX/2), int(0+i)))
+
 
 # criando a caixinha q mostra as coordenadas
 widget1 = Frame(master)
@@ -45,14 +51,14 @@ msg_plano.pack()
 
 # Container para mostrar os NDCs
 coordenadas_ndc = Frame(master)
-coordenadas_ndc.place(bordermode=OUTSIDE, height=20, width=400, y=70,x=20)
+coordenadas_ndc.place(bordermode=OUTSIDE, height=20, width=400, y=70, x=20)
 msg_ndc = Label(coordenadas_ndc, text=f"Coordenadas NDC NDCX:{0} | NDCY: {0}")
 msg_ndc["font"] = ("Verdana", "10", "italic", "bold")
 msg_ndc.pack(side="bottom")
 
-#Container 
+# Container
 coordenadas_dc = Frame(master)
-coordenadas_dc.place(bordermode=OUTSIDE, height=20, width=300,x=500,y=70)
+coordenadas_dc.place(bordermode=OUTSIDE, height=20, width=300, x=500, y=70)
 msg_dc = Label(coordenadas_dc, text=f"Coordenadas DC DCX:{0} | DCY: {0}")
 msg_dc["font"] = ("Verdana", "10", "italic", "bold")
 msg_dc.pack(side="bottom")
@@ -66,25 +72,25 @@ def button(event):
 
     x = event.x
     y = event.y
-    
-    if(x > canvasSizeX):
-        x=canvasSizeX
-    elif(y > canvasSizeY): 
+
+    if (x > canvasSizeX):
+        x = canvasSizeX
+    elif (y > canvasSizeY):
         y = canvasSizeY
-    elif(y<0): 
+    elif (y < 0):
         y = 0
-    elif(x<0): 
+    elif (x < 0):
         x = 0
-    
+
     x_plano = round(x - (canvasSizeX / 2) - 1) + 1
     y_plano = (round(((y - canvasSizeY / 2) - 1)) * -1) - 1
-    
-    ndcx = round(transformar.world_to_ndcx(x_plano, (canvasSizeX/2)), 2)
-    ndcy = round(transformar.world_to_ndcy(y_plano, (canvasSizeY/2)), 2)
+
+    ndcx = round(transformar.world_to_ndcx(x_plano, (canvasSizeX / 2)), 2)
+    ndcy = round(transformar.world_to_ndcy(y_plano, (canvasSizeY / 2)), 2)
 
     dcx = transformar.ndcx_to_dcx(ndcx, canvasSizeX)
     dcy = transformar.ndcy_to_dcy(ndcy, canvasSizeY)
-    
+
     msg.configure(text=f'Coordenadas da tela X:{x} | Y: {y}')
     msg_plano.configure(
         text=f'Coordenadas do plano X:{x_plano} | Y: {y_plano}')
@@ -101,12 +107,12 @@ def button(event):
         ("red", "red", "red", "red", "red"),
         ("red", "red", "red", "red", "red"),
     )
-    
+
     if (x - 2 < 0) or (y - 2 < 0):
         img.put(data, (x, y))
 
     else:
-        img.put(data, (x-2, y-2))
+        img.put(data, (x - 2, y - 2))
         # Impressão do pixel
 
 
