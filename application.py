@@ -85,8 +85,8 @@ def button(event):
     x_plano = round(x - (canvasSizeX / 2) - 1) + 1
     y_plano = (round(((y - canvasSizeY / 2) - 1)) * -1) - 1
 
-    ndcx = round(transformar.world_to_ndcx(x_plano, (canvasSizeX / 2)), 2)
-    ndcy = round(transformar.world_to_ndcy(y_plano, (canvasSizeY / 2)), 2)
+    ndcx = round(transformar.world_to_ndcx(x, (canvasSizeX)), 2)
+    ndcy = round(transformar.world_to_ndcy(y, (canvasSizeY)), 2)
 
     dcx = transformar.ndcx_to_dcx(ndcx, canvasSizeX)
     dcy = transformar.ndcy_to_dcy(ndcy, canvasSizeY)
